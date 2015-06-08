@@ -7,6 +7,7 @@
 //
 
 #import "FISAppDelegate.h"
+#import "FISCart.h"
 
 @implementation FISAppDelegate
 
@@ -16,6 +17,37 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    FISCart *cart = [[FISCart alloc] init];
+    FISItem *hat = [[FISItem alloc] initWithName:@"hat" andPrice:@20];
+    FISItem *shirt = [[FISItem alloc] initWithName:@"shirt" andPrice:@15];
+    FISItem *iPhone = [[FISItem alloc] initWithName:@"iPhone" andPrice:@650];
+    FISItem *MacBook = [[FISItem alloc] initWithName:@"MacBook" andPrice:@1300];
+    
+    [cart addItem:hat];
+    [cart addItem:iPhone];
+    [cart addItem:shirt];
+    [cart removeItem:hat];
+    [cart addItem:shirt];
+    [cart addItem:iPhone];
+    [cart addItem:shirt];
+    [cart addItem:MacBook];
+    [cart addItem:shirt];
+    [cart addItem:shirt];
+    [cart addItem:shirt];
+    [cart addItem:shirt];
+    [cart addItem:shirt];
+    [cart addItem:hat];
+    [cart addItem:shirt];
+    [cart removeItem:iPhone];
+    [cart addItem:shirt];
+    [cart addItem:shirt];
+    [cart removeItem:shirt];
+    [cart addItem:hat];
+
+    
+    NSLog(@"%@", cart);
+    
     return YES;
 }
 

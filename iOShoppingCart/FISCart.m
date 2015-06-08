@@ -43,8 +43,11 @@
 
 - (void)removeItem:(FISItem *)itemToRemove
 {
-    if ([self.items containsObject:itemToRemove]) {
-        [self.items removeObject:itemToRemove];
+    for (int i = 0; i < self.items.count; i++) {
+        if ([self.items[i] isEqual:itemToRemove]) {
+            [self.items removeObjectAtIndex:i];
+            break;
+        }
     }
 }
 
@@ -83,6 +86,40 @@
         }
     }
     return [itemsMoreExpensive copy];
+}
+
+- (NSString *)description
+{
+    NSCountedSet *itemsWithQuantity = [[NSCountedSet alloc] initWithArray:self.items];
+    NSMutableString *string = [@"\n" mutableCopy];
+    NSNumber *total = @0;
+    
+    for (FISItem *item in itemsWithQuantity) {
+        NSNumber *quantity = @([itemsWithQuantity countForObject:item]);
+        NSNumber *price = @([item.price integerValue] * [quantity integerValue]);
+        total = @([total integerValue] + [price integerValue]);
+        int quantitySpace = 5 - (int)[quantity stringValue].length;
+        int nameSpace = 15 - (int)item.name.length;
+        int priceSpace = 5 - (int)[price stringValue].length;
+        
+        NSString *lineItem = [NSString stringWithFormat:@"\n%*s%@ %@%*s%*s%@",
+                              quantitySpace,
+                              " ",
+                              quantity,
+                              item.name,
+                              nameSpace,
+                              " ",
+                              priceSpace,
+                              " ",
+                              price];
+        
+        [string appendString:lineItem];
+    }
+    
+    int totalSpace = 15 - (int)[total stringValue].length;
+    [string appendFormat:@"\n    ----------------------\n      Total%*s%@\n\n", totalSpace, " ", total];
+    
+    return string;
 }
 
 @end
